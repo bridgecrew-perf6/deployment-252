@@ -12,4 +12,6 @@ public class ApplicationController {
     public String testApplication() {
         return "Application is working fine";
     }
+
+    
 }

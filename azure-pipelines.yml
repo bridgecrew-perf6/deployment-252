@@ -24,6 +24,8 @@ steps:
   - task: Docker@2
     inputs:
       containerRegistry: 'docker hub service connection'
-      repository: 'deployment'
+      repository: 'nikunjkheni'
+      imageName: 'nikunjkheni/deployment:$(Build.BuildId)'
       command: 'buildAndPush'
       Dockerfile: '**/Dockerfile'
+      includeLatestTag: true

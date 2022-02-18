@@ -10,16 +10,42 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+  - task: SonarQubePrepare@5
+      inputs:
+        SonarQube: 'SonarqubeSeviceConnection'
+        scannerMode: 'Other'
+        extraProperties: |
+          # Additional properties that will be passed to the scanner,
+          # Put one key=value per line, example:
+          # sonar.exclusions=**/*.bin
+          sonar.projectKey=deployment
+          sonar.branch.name=master
+
   - task: Maven@3
     inputs:
       mavenPomFile: 'pom.xml'
       mavenOptions: '-Xmx3072m'
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      publishJUnitResults: true
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.11'
       jdkArchitectureOption: 'x64'
-      publishJUnitResults: true
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      mavenVersionOption: 'Default'
+      mavenAuthenticateFeed: false
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: true
+      sqMavenPluginVersionChoice: 'latest'
       goals: 'package'
+
+  - task: SonarQubePublish@5
+    inputs:
+      pollingTimeoutSec: '300'
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(system.defaultworkingdirectory)'
+      Contents: '**/*.jar'
+      TargetFolder: '$(build.artifactstagingdirectory)'
 
   - task: Docker@2
     inputs:
@@ -27,3 +53,9 @@ steps:
       repository: 'nikunjkheni/deployment'
       command: 'buildAndPush'
       Dockerfile: '**/Dockerfile'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'

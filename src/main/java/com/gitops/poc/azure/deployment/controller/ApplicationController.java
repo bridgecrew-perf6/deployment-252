@@ -13,6 +13,5 @@ public class ApplicationController {
         return "Application is working fine";
     }
 
-
-
+    
 }

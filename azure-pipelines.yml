@@ -19,7 +19,8 @@ steps:
         # Additional properties that will be passed to the scanner, 
         # Put one key=value per line, example:
         # sonar.exclusions=**/*.bin
-        sonar.projectKey=deployment
+        sonar.login=$(SONAR_TOKEN)
+        sonar.projectKey=nikunjkheni771_deployment
 
   - task: Maven@3
     inputs:

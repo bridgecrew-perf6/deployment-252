@@ -22,7 +22,7 @@ public class ApplicationController {
     private static final String TEST_VARIABLE6 = "Test Variable";
 
     @GetMapping("/test")
-    public String testApplication() {
+    public String testApplication() throws IOException {
         return "Application is working fine";
     }
 

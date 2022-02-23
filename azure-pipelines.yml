@@ -4,7 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-  - main
+  batch: true
+  branches:
+    exclude:
+      - main
 
 pool:
   vmImage: ubuntu-latest
@@ -28,6 +31,7 @@ steps:
       mavenOptions: '-Xmx3072m'
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       publishJUnitResults: true
+      codeCoverageToolOption: 'JaCoCo'
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.11'
       jdkArchitectureOption: 'x64'

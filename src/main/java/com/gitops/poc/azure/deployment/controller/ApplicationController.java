@@ -1,9 +1,7 @@
 package com.gitops.poc.azure.deployment.controller;
 
 import org.springframework.boot.cloud.CloudFoundryVcapEnvironmentPostProcessor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/application")
 public class ApplicationController {
 
     private static final String TEST_VARIABLE = "Test Variable";
@@ -21,13 +18,22 @@ public class ApplicationController {
     private static final String TEST_VARIABLE5 = "Test Variable";
     private static final String TEST_VARIABLE6 = "Test Variable";
 
-    @GetMapping("/test")
+    @GetMapping("/")
     public String testApplication() throws IOException {
         return "Application is working fine";
+    }
+
+    @GetMapping("/test-get/{name}")
+    public String testGet(@PathVariable String name) throws IOException {
+        return "Welcome to the site " + name + "!";
+    }
+
+    @PostMapping("/test-post")
+    public String testPost(@RequestBody String value) throws IOException {
+        return "Application is working fine with given input" + value;
     }
 
     public String testMethod() throws IOException {
         return null;
     }
-    
 }

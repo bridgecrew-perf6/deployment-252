@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: deployment
-          image: nikunjkheni/deployment:69
+          image: nikunjkheni/deployment:latest

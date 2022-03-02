@@ -16,18 +16,21 @@ pr:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  - group: GitOpsVariableGroup
+
 steps:
   - task: SonarCloudPrepare@1
     inputs:
-      SonarCloud: 'Sonarcloud'
-      organization: 'nikunjkheni771'
+      SonarCloud: '$(SONAR_SERVICE_CONNECTION)'
+      organization: '$(SONAR_ORGANIZATION)'
       scannerMode: 'Other'
       extraProperties: |
         # Additional properties that will be passed to the scanner, 
         # Put one key=value per line, example:
         # sonar.exclusions=**/*.bin
         sonar.login=$(SONAR_TOKEN)
-        sonar.projectKey=nikunjkheni771_deployment
+        sonar.projectKey=$(SONAR_PROJECT_KEY)
 
   - task: Maven@3
     inputs:
@@ -58,11 +61,13 @@ steps:
 
   - task: Docker@2
     inputs:
-      containerRegistry: 'docker hub service connection'
-      repository: 'nikunjkheni/deployment'
+      containerRegistry: '$(DOCKER_SERVICE_CONNECTION)'
+      repository: '$(DOCKER_REPOSITORY)'
       command: 'buildAndPush'
       Dockerfile: '**/Dockerfile'
-      tags: $(Build.BuildId)
+      tags: |
+        $(Build.BuildId)
+        latest
 
   - task: PublishBuildArtifacts@1
     inputs:

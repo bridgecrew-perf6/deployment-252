@@ -62,8 +62,7 @@ steps:
       repository: 'nikunjkheni/deployment'
       command: 'buildAndPush'
       Dockerfile: '**/Dockerfile'
-      tags: |
-        $(Build.BuildId)
+      tags: $(Build.BuildId)
 
   - task: PublishBuildArtifacts@1
     inputs:

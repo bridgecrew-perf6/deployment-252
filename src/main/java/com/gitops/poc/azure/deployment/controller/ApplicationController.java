@@ -33,7 +33,7 @@ public class ApplicationController {
         return "Application is working fine with given input" + value;
     }
 
-    @GetMapping
+    @GetMapping("latest-image")
     public String testLatestImage() {
         return "Latest image deployed";
     }

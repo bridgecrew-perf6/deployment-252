@@ -32,5 +32,8 @@ public class ApplicationController {
     public String testPost(@RequestBody String value) throws IOException {
         return "Application is working fine with given input" + value;
     }
+
+
+
     
 }

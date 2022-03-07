@@ -37,4 +37,5 @@ public class ApplicationController {
     public String testLatestImage() {
         return "Latest image deployed";
     }
+    
 }

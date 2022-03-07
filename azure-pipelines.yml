@@ -66,8 +66,7 @@ steps:
       command: 'buildAndPush'
       Dockerfile: '**/Dockerfile'
       tags: |
-        $(Build.BuildId)
-        latest
+        $(System.PullRequest.PullRequestId)
 
   - task: PublishBuildArtifacts@1
     inputs:
